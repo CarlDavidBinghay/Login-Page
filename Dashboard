@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex font-sans">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white shadow-xl p-6 hidden md:block">
+    <h2 class="text-2xl font-bold text-gray-800 mb-8">Dashboard</h2>
+    <nav class="space-y-4">
+      <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium sidebar-link active" data-section="home">Home</a>
+      <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium sidebar-link" data-section="students">Students</a>
+      <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium sidebar-link" data-section="teachers">Teachers</a>
+      <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium sidebar-link" data-section="reports">Reports</a>
+      <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium sidebar-link" data-section="settings">Settings</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8" id="main-content">
+    <!-- Home Section -->
+    <section id="home-section">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">Welcome Back!</h1>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-2xl shadow block hover:shadow-lg transition cursor-pointer stat-card" data-section="students">
+          <h3 class="text-gray-600 text-sm">Total Students</h3>
+          <p class="text-3xl font-bold text-gray-800">1,245</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow block hover:shadow-lg transition cursor-pointer stat-card" data-section="teachers">
+          <h3 class="text-gray-600 text-sm">Total Teachers</h3>
+          <p class="text-3xl font-bold text-gray-800">54</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow block hover:shadow-lg transition cursor-pointer stat-card" data-section="enrollments">
+          <h3 class="text-gray-600 text-sm">New Enrollments</h3>
+          <p class="text-3xl font-bold text-gray-800">89</p>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="bg-white rounded-2xl shadow p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
+        <ul class="space-y-3 text-gray-700">
+          <li>• New student registered: <strong>Maria Santos</strong></li>
+          <li>• Teacher <strong>Mr. David</strong> updated Grade 10 report</li>
+          <li>• Payment received from <strong>Parent - Lopez Family</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Other Sections (Hidden by default) -->
+    <section id="students-section" class="hidden">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">Students</h1>
+      <p>List of students, details, and actions go here.</p>
+    </section>
+
+    <section id="teachers-section" class="hidden">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">Teachers</h1>
+      <p>List of teachers, subjects, and schedules go here.</p>
+    </section>
+
+    <section id="reports-section" class="hidden">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">Reports</h1>
+      <p>Generate reports on students, teachers, and finance.</p>
+    </section>
+
+    <section id="settings-section" class="hidden">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">Settings</h1>
+      <p>Update system settings and user preferences here.</p>
+    </section>
+
+    <section id="enrollments-section" class="hidden">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">Enrollments</h1>
+      <p>View new enrollments and process student registration.</p>
+    </section>
+
+  </main>
+
+  <!-- JavaScript for interactivity -->
+  <script>
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+    const statCards = document.querySelectorAll('.stat-card');
+    const sections = document.querySelectorAll('main > section');
+
+    function showSection(sectionId) {
+      sections.forEach(sec => sec.classList.add('hidden'));
+      const el = document.getElementById(sectionId + '-section');
+      if(el) el.classList.remove('hidden');
+    }
+
+    // Sidebar clicks
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        sidebarLinks.forEach(l => l.classList.remove('text-blue-600', 'font-bold'));
+        link.classList.add('text-blue-600', 'font-bold');
+        showSection(link.dataset.section);
+      });
+    });
+
+    // Stats card clicks
+    statCards.forEach(card => {
+      card.addEventListener('click', () => {
+        showSection(card.dataset.section);
+        sidebarLinks.forEach(l => l.classList.remove('text-blue-600', 'font-bold'));
+        const targetLink = Array.from(sidebarLinks).find(l => l.dataset.section === card.dataset.section);
+        if(targetLink) targetLink.classList.add('text-blue-600', 'font-bold');
+      });
+    });
+  </script>
+
+</body>
+</html>
